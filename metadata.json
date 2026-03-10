@@ -1,0 +1,7 @@
+{
+  "name": "ShiftTrack Pro 4.3",
+  "description": "A high-end employee shift management dashboard with real-time tracking, administrative reports, and Google Sheets integration.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

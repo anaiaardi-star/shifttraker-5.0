@@ -117,13 +117,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToRegister }) =
             <p className="mt-10 text-slate-400 text-xs text-center">
               {t('login.footer')}
               <br />
-              <button 
-                type="button" 
-                onClick={onNavigateToRegister} 
-                className="mt-4 text-primary font-bold hover:underline"
+              <a 
+                href="https://wa.me/573134970533?text=Tu%20mensaje%20aqu%C3%AD"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-block text-primary font-bold hover:underline"
               >
-                ¿No tienes cuenta? Regístrate aquí
-              </button>
+                Quieres tener esta herramienta haz click
+              </a>
             </p>
           </div>
         </div>

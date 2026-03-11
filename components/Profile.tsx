@@ -23,7 +23,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
   useEffect(() => {
     if (user?.email) {
       // Fetch main profile info
-      ApiService.getUserProfile(user.email).then(data => {
+      ApiService.getUserProfile(user).then(data => {
         setExtraInfo(data);
         setFormData(prev => ({
           ...prev,
@@ -195,12 +195,14 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('prof.role')}</label>
-              <div className="px-4 py-3 text-sm text-slate-400 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-transparent">
-                {displayRole}
+            {user?.role === 'Admin' && (
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('prof.role')}</label>
+                <div className="px-4 py-3 text-sm text-slate-400 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-transparent">
+                  {displayRole}
+                </div>
               </div>
-            </div>
+            )}
             
             <div className="flex flex-col gap-2 md:col-span-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('prof.timezone')}</label>

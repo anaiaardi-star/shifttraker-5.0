@@ -285,14 +285,15 @@ export const MyReports = () => {
                                 <th className="px-8 py-5 text-center">{t('rep.table_start')}</th>
                                 <th className="px-8 py-5 text-center">{t('rep.table_end')}</th>
                                 <th className="px-8 py-5 text-right">{t('rep.table_duration')}</th>
+                                <th className="px-8 py-5 text-left">{t('rep.table_comment')}</th>
                                 <th className="px-8 py-5 text-center">{t('rep.table_status')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                             {loading ? (
-                                <tr><td colSpan={5} className="py-24 text-center text-slate-400 animate-pulse font-bold tracking-widest">{t('rep.loading')}</td></tr>
+                                <tr><td colSpan={6} className="py-24 text-center text-slate-400 animate-pulse font-bold tracking-widest">{t('rep.loading')}</td></tr>
                             ) : filteredShifts.length === 0 ? (
-                                <tr><td colSpan={5} className="py-24 text-center text-slate-400 font-bold italic">{t('rep.no_results')}</td></tr>
+                                <tr><td colSpan={6} className="py-24 text-center text-slate-400 font-bold italic">{t('rep.no_results')}</td></tr>
                             ) : (
                                 filteredShifts.map((s, i) => (
                                     <tr key={s.id || i} onClick={() => setSelectedShift(s)} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all group">
@@ -315,6 +316,23 @@ export const MyReports = () => {
                                             </div>
                                         </td>
                                         <td className="px-8 py-5 text-right font-black text-xs text-primary">{s.duration}</td>
+                                        <td className="px-8 py-5">
+                                            <div className="flex flex-col gap-1 max-w-[200px]">
+                                                {s.comment_start && (
+                                                    <span className="text-[10px] text-slate-600 dark:text-slate-400 truncate" title={s.comment_start}>
+                                                        📥 {s.comment_start}
+                                                    </span>
+                                                )}
+                                                {s.comment_end && (
+                                                    <span className="text-[10px] text-slate-600 dark:text-slate-400 truncate" title={s.comment_end}>
+                                                        📤 {s.comment_end}
+                                                    </span>
+                                                )}
+                                                {!s.comment_start && !s.comment_end && (
+                                                    <span className="text-[10px] text-slate-400 italic">---</span>
+                                                )}
+                                            </div>
+                                        </td>
                                         <td className="px-8 py-5 text-center">
                                             {s.isInProgress ? (
                                                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-success/10 text-success text-[10px] font-black uppercase">

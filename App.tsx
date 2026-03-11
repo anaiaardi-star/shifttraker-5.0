@@ -114,7 +114,7 @@ const AppContent: React.FC = () => {
       </main>
       <footer className="py-6 border-t border-slate-200 dark:border-slate-800 text-center bg-white dark:bg-background-dark/50">
         <p className="text-slate-400 text-xs font-medium">
-          ShiftTrack Enterprise v3.1.0 • Powered by <strong className="text-orange-500">ALPHA 360</strong> • ardi.agency
+          ShiftTrack Enterprise v3.1.0 • Powered by <a href="https://ardi.agency/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity"><strong className="text-orange-500">ALPHA 360</strong> • ardi.agency</a>
         </p>
       </footer>
     </div>

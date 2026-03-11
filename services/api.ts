@@ -45,7 +45,7 @@ const ACTIVE_SESSION_KEY = 'shifttrack_active_session_v1';
 const WEBHOOKS = {
   REGISTRO: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-registro',
   LOGIN: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-login',
-  INFO_USUARIO: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-cargadeinformacion',
+  INFO_USUARIO: 'https://n8n.smarttitan.pro/webhook/shifttytrack-miperfil',
   INICIO_TURNO: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-horadeinicio',
   FIN_TURNO: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-horafinal',
   HISTORIAL_DATOS: 'https://n8n.smarttitan.pro/webhook/ShiftTrack-cargadedatos',
@@ -63,11 +63,12 @@ const normalizeListResponse = (rawData: any): any[] => {
   if (Array.isArray(rawData)) {
     return rawData.map(item => item.json || item);
   }
-  const keys = ['data', 'rows', 'users', 'shifts', 'items', 'output'];
+  const keys = ['data', 'rows', 'users', 'shifts', 'items', 'output', 'user', 'body'];
   for (const key of keys) {
     if (Array.isArray(rawData[key])) return rawData[key].map((item: any) => item.json || item);
+    if (typeof rawData[key] === 'object' && rawData[key] !== null) return [rawData[key].json || rawData[key]];
   }
-  if (typeof rawData === 'object' && !rawData.error && !rawData.status) {
+  if (typeof rawData === 'object' && rawData.status !== 'error' && rawData.error !== true) {
       return [rawData];
   }
   return [];
@@ -561,14 +562,20 @@ export const ApiService = {
     } catch (error) { return false; }
   },
 
-  getUserProfile: async (email: string): Promise<Partial<User>> => {
+  getUserProfile: async (userOrEmail: User | string): Promise<Partial<User>> => {
     try {
+      const isUser = typeof userOrEmail === 'object';
+      const email = isUser ? userOrEmail.email : userOrEmail;
+      const user_id = isUser ? userOrEmail.id : undefined;
+      const id_subcuenta = isUser ? userOrEmail.id_subcuenta : ApiService.getSubaccountId();
+
       const response = await fetch(WEBHOOKS.INFO_USUARIO, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
             email, 
-            id_subcuenta: ApiService.getSubaccountId() 
+            user_id,
+            id_subcuenta: id_subcuenta || ApiService.getSubaccountId() 
         })
       });
       const rawData = await response.json();
